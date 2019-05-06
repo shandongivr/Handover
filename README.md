@@ -9,7 +9,7 @@
 ### 移网出账
 每月25号凌晨程序自动出账，白天上班后到`/q:/flow/bill/otherNet/`路径下取出账数据发送到地市，地市收件人可以查看上个月邮件里面发送的；
 ### 固网出账 
-#### 1. 每月最后一天97用户数据导入
+1. #### 每月最后一天97用户数据导入
 ```sql
 --1、需要处理的97数据
 ----1)枣庄：由孙世红通过邮箱发送
@@ -82,7 +82,7 @@ COMMIT;
 
 97不入库！
 ```
-#### 2. 每月最后一天强制包月  
+2. #### 每月最后一天强制包月  
 ```sql
 declare
 c int :=0;
@@ -90,7 +90,7 @@ begin
   P_TAS_MPFORCE(c);
 end;
 ```
-#### 3. 322话单转移
+3. #### 322话单转移
 > 将9600322业务的当月话单数据从29服务器的bill_realtimebill中导出到13的bill_formalbill当中（数据保留切勿删除）。（两套平台都有一个bill_formalbill_testst表，用该表进行中转，使用insert语句导入数据，导入之前要先过滤一下红名单用户，只导入非红名单用户的话单）
 
 ##### 清空bill_formalbill_testst表（29，13机器上的数据都清空）
@@ -115,7 +115,7 @@ delete bill_formalbill_testst where c_billphone in(select c_phone from bill_redu
 ```sql
 insert into bill_formalbill (select * from bill_formalbill_testst where c_endtime between trunc(add_months(sysdate,-1),'mm') and trunc(sysdate,'mm'));
 ```
-#### 4. 每月1日出账前处理
+4. #### 每月1日出账前处理
 ```sql
 --注意：以下所有update或delete语句,都必须先用select语句确定结果后再执行！！
 莱芜包月扣费查询
@@ -267,7 +267,7 @@ BETWEEN TRUNC(SYSDATE-1,'MM')
 
 
 ```
-#### 报表统计
+5. #### 报表统计
 ##### 更新BILL_LAST_MONTH表
 ```sql
 TRUNCATE TABLE BILL_LAST_MONTH;
