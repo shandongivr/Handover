@@ -6,6 +6,7 @@
   - [322话单](#322话单转移)
   - [出账前处理](#每月1日出账前处理)
   - [报表统计](#报表统计)
+  - [322统计](#322统计)
 
 ### 移网出账  
 每月25号凌晨程序自动出账，白天上班后到`/q:/flow/bill/otherNet/`路径下取出账数据发送到地市，地市收件人可以查看上个月邮件里面发送的；
@@ -282,3 +283,8 @@ WHERE C_ENDTIME BETWEEN TRUNC(ADD_MONTHS(SYSDATE,-1),'MM') AND TRUNC(SYSDATE,'MM
 运行`C:\Users\DEVELOP\Desktop\pyscript\`路径下的`report.py`，待程序完成后，将在桌面`output`文件夹下生成上月报表（生成前请清空文件夹）;
 邮件按上月已发送进行发送  
 *ps:德州数据需要手动更新，进德州目录打开`声讯报表.xls`进行更新！*
+#### 322统计  
+*查询结束后将结果保存到`H:\JNHH\data\`目录下`9600322LastMonth.xls`中*
+```sql
+select c_caller,c_billitem,to_char(c_begintime,'yyyy-mm-dd hh24:mi:ss'),to_char(c_endtime,'yyyy-mm-dd hh24:mi:ss'),c_duration,c_feesum from bill_last_month where c_called like '9600322%';
+```
